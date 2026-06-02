@@ -816,7 +816,7 @@ export default function Home() {
       audio.play()
         .then(() => { fadeTo(0.2, 1500); setPlaying(true) })
         .catch(() => {})
-    }, 4000)
+    }, 2500)
     return () => clearTimeout(timer)
   }, [])
 

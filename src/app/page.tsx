@@ -819,15 +819,11 @@ export default function Home() {
       audio.play()
         .then(() => { fadeTo(0.2, 1500); setPlaying(true) })
         .catch(() => {})
+      events.forEach(ev => window.removeEventListener(ev, start))
     }
-    window.addEventListener('scroll', start, { once: true })
-    window.addEventListener('click', start, { once: true })
-    window.addEventListener('touchstart', start, { once: true })
-    return () => {
-      window.removeEventListener('scroll', start)
-      window.removeEventListener('click', start)
-      window.removeEventListener('touchstart', start)
-    }
+    const events = ['click', 'keydown', 'wheel', 'pointerdown', 'touchstart']
+    events.forEach(ev => window.addEventListener(ev, start, { passive: true }))
+    return () => events.forEach(ev => window.removeEventListener(ev, start))
   }, [])
 
   useEffect(() => {

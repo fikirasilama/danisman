@@ -911,9 +911,9 @@ export default function CinematicPage() {
         scrollTrigger: {
           trigger: sec,
           start:   "top top",
-          end:     "+=150%",   // 150vh extra scroll per scene = 250vh total per scene
+          end:     "+=130%",   // 130vh extra scroll per scene = 230vh total per scene
           pin:     true,
-          scrub:   1.4,
+          scrub:   0.8,
           onEnter:     () => { acts[i].current = true;  activateDot(i) },
           onLeave:     () => { acts[i].current = false },
           onEnterBack: () => { acts[i].current = true;  activateDot(i) },
@@ -928,7 +928,7 @@ export default function CinematicPage() {
           { clipPath: "circle(150% at 50% 50%)", duration: 1.6, ease: "power3.out" },
           0
         )
-        tl.to(cv, { opacity: 1, duration: 0.9 }, 0)
+        tl.to(cv, { opacity: 1, duration: 0.6 }, 0)
       }
 
       // ── CONTENT REVEALS (scrubbed) ───────────────────────────────────────
@@ -960,7 +960,7 @@ export default function CinematicPage() {
 
       // ── COLLAPSE to singularity (all except last scene) ──────────────────
       if (!isLast) {
-        const C = D * 0.74  // collapse begins at 74% — later start = less black at end
+        const C = D * 0.80  // collapse begins at 80% — more breathing room, shorter void at end
 
         // Gather this scene's content elements
         const els: Element[] = []
@@ -969,7 +969,7 @@ export default function CinematicPage() {
         // Content implodes toward center
         tl.to(els, { autoAlpha: 0, scale: 0.65, duration: 1.4, ease: "power3.in" }, C)
         // Canvas dims
-        tl.to(cv,  { opacity: 0, duration: 1.2, ease: "power2.in" }, C + 0.1)
+        tl.to(cv,  { opacity: 0, duration: 0.7, ease: "power3.in" }, C + 0.1)
         // Circle crushes to singularity point
         tl.to(sec, { clipPath: "circle(0% at 50% 50%)", duration: 1.8, ease: "power4.in" }, C + 0.25)
         // Minimal hold — just enough for next scene to start emerging
@@ -985,9 +985,9 @@ export default function CinematicPage() {
 
   }, { scope: containerRef })
 
-  // Each scene = 100vh section + 150vh pin spacer = 250vh = 2.5 * innerHeight
+  // Each scene = 100vh section + 130vh pin spacer = 230vh = 2.3 * innerHeight
   const scrollTo = (i: number) => {
-    window.scrollTo({ top: i * 2.5 * window.innerHeight, behavior: "smooth" })
+    window.scrollTo({ top: i * 2.3 * window.innerHeight, behavior: "smooth" })
   }
 
   // ─── JSX ──────────────────────────────────────────────────────────────────
@@ -1008,7 +1008,11 @@ export default function CinematicPage() {
         ))}
       </div>
 
-      <div ref={containerRef} style={{ cursor: "none", backgroundColor: "#0a0806" }}>
+      <div ref={containerRef} style={{
+        cursor: "none",
+        backgroundColor: "#0a0806",
+        backgroundImage: "radial-gradient(ellipse 140% 60% at 50% 100%, rgba(28,14,4,1) 0%, #0a0806 55%)"
+      }}>
 
         {/* ═══ SCENE 0 — HYPERDRIVE HERO ══════════════════════════════════════ */}
         <section ref={s0} className="relative h-screen overflow-hidden">
@@ -1016,7 +1020,7 @@ export default function CinematicPage() {
           <Vignette />
           <div className="relative z-10 h-full flex flex-col justify-center px-12 md:px-20 max-w-5xl">
             <p className={`s0-meta ${it.className}`}
-              style={{ fontSize: "0.64rem", letterSpacing: "0.26em", color: "#8a7e6f",
+              style={{ fontSize: "0.82rem", letterSpacing: "0.26em", color: "#8a7e6f",
                 textTransform: "uppercase", marginBottom: "2.5rem" }}>
               EDISYON 01 · MAYIS 2026 · İZMİR - İSTANBUL
             </p>
@@ -1035,7 +1039,7 @@ export default function CinematicPage() {
               ))}
             </h1>
             <p className={`s0-sub ${it.className}`}
-              style={{ marginTop: "2rem", fontSize: "clamp(0.85rem, 1.4vw, 1.05rem)",
+              style={{ marginTop: "2rem", fontSize: "clamp(1rem, 1.5vw, 1.125rem)",
                 color: "#8a7e6f", maxWidth: 520, lineHeight: 1.75, fontWeight: 300 }}>
               KOBİ&apos;lerin yapay zekayla kurduğu ilişki yanlış başlıyor.
               Biz aracıyız. Sizin işiniz için Claude&apos;u biz konuşturuyoruz.
@@ -1054,12 +1058,12 @@ export default function CinematicPage() {
           <Vignette />
           <div className="relative z-10 px-12 md:px-20 max-w-3xl">
             <p className={`s1-tag ${it.className}`}
-              style={{ fontSize: "0.6rem", letterSpacing: "0.32em", color: "#d4954a",
+              style={{ fontSize: "0.82rem", letterSpacing: "0.32em", color: "#d4954a",
                 textTransform: "uppercase", marginBottom: "2rem" }}>
               Manifesto
             </p>
             <h2 className={`s1-title ${cg.className}`}
-              style={{ fontSize: "clamp(1.8rem, 3.8vw, 3.3rem)", fontWeight: 300, fontStyle: "italic",
+              style={{ fontSize: "clamp(2.2rem, 4.6vw, 3.9rem)", fontWeight: 300, fontStyle: "italic",
                 color: "#f4ead8", lineHeight: 1.22, marginBottom: "3rem" }}>
               Biz bir yazılım satıcısı değiliz. Biz karar vericiyiz.
               Bağlantı kuruyoruz.
@@ -1068,7 +1072,7 @@ export default function CinematicPage() {
               {["Sade ama derin", "Sektörünüze konuşur", "Bir el sıkışma"].map((item, i) => (
                 <div key={i} className={`s1-item ${it.className} flex items-center gap-4`}>
                   <span style={{ width: 28, height: 1, backgroundColor: "#d4954a", flexShrink: 0 }} />
-                  <span style={{ fontSize: "1rem", color: "#e8dcc9", fontWeight: 300, letterSpacing: "0.04em" }}>
+                  <span style={{ fontSize: "1.875rem", color: "#e8dcc9", fontWeight: 300, letterSpacing: "0.04em", lineHeight: 1.3 }}>
                     {item}
                   </span>
                 </div>
@@ -1083,7 +1087,7 @@ export default function CinematicPage() {
           <Vignette />
           <div className="relative z-10 w-full px-12 md:px-20">
             <p className={`s2-label ${it.className}`}
-              style={{ fontSize: "0.6rem", letterSpacing: "0.32em", color: "#d4954a",
+              style={{ fontSize: "0.82rem", letterSpacing: "0.32em", color: "#d4954a",
                 textTransform: "uppercase", marginBottom: "2.5rem" }}>
               Hizmet Katalogu
             </p>
@@ -1092,11 +1096,11 @@ export default function CinematicPage() {
                 <div key={s.name} className="s2-card px-6 py-5"
                   style={{ backgroundColor: "rgba(10,8,6,0.72)", border: "1px solid rgba(212,149,74,0.12)" }}>
                   <p className={cg.className}
-                    style={{ fontSize: "1.05rem", fontWeight: 400, color: "#e8dcc9", marginBottom: "0.35rem" }}>
+                    style={{ fontSize: "2rem", fontWeight: 400, color: "#e8dcc9", marginBottom: "0.4rem" }}>
                     {s.name}
                   </p>
                   <p className={it.className}
-                    style={{ fontSize: "0.62rem", color: "#8a7e6f", letterSpacing: "0.08em" }}>
+                    style={{ fontSize: "1rem", color: "#8a7e6f", letterSpacing: "0.05em", lineHeight: 1.7 }}>
                     {s.desc}
                   </p>
                 </div>
@@ -1111,7 +1115,7 @@ export default function CinematicPage() {
           <Vignette />
           <div className="relative z-10 px-12 md:px-20 max-w-xl">
             <p className={`s3-label ${it.className}`}
-              style={{ fontSize: "0.6rem", letterSpacing: "0.32em", color: "#d4954a",
+              style={{ fontSize: "0.82rem", letterSpacing: "0.32em", color: "#d4954a",
                 textTransform: "uppercase", marginBottom: "2.5rem" }}>
               Nasıl Çalışır
             </p>
@@ -1124,11 +1128,11 @@ export default function CinematicPage() {
                   </span>
                   <div>
                     <p className={cg.className}
-                      style={{ fontSize: "1.3rem", fontWeight: 400, color: "#e8dcc9", marginBottom: "0.3rem" }}>
+                      style={{ fontSize: "2rem", fontWeight: 400, color: "#e8dcc9", marginBottom: "0.3rem" }}>
                       {s.label}
                     </p>
                     <p className={it.className}
-                      style={{ fontSize: "0.82rem", color: "#8a7e6f", lineHeight: 1.65, fontWeight: 300 }}>
+                      style={{ fontSize: "1.0625rem", color: "#8a7e6f", lineHeight: 1.7, fontWeight: 300 }}>
                       {s.desc}
                     </p>
                   </div>
@@ -1144,12 +1148,12 @@ export default function CinematicPage() {
           <Vignette />
           <div className="relative z-10 text-center px-8 max-w-2xl">
             <p className={`s4-quote ${it.className}`}
-              style={{ fontSize: "0.62rem", letterSpacing: "0.28em", color: "#8a7e6f",
+              style={{ fontSize: "0.82rem", letterSpacing: "0.28em", color: "#8a7e6f",
                 textTransform: "uppercase", marginBottom: "2rem" }}>
               Tıkla · patlat · hayal et
             </p>
             <h2 className={`s4-cta ${cg.className}`}
-              style={{ fontSize: "clamp(1.8rem, 4vw, 3.6rem)", fontWeight: 300, fontStyle: "italic",
+              style={{ fontSize: "clamp(2.2rem, 4.8vw, 4.2rem)", fontWeight: 300, fontStyle: "italic",
                 color: "#f4ead8", lineHeight: 1.2, marginBottom: "3rem" }}>
               İşinizin sessiz katmanı artık zeki olabilir.
             </h2>

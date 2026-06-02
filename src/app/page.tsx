@@ -809,15 +809,25 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    let started = false
+    const start = () => {
+      if (started) return
+      started = true
       const audio = audioRef.current
       if (!audio) return
       audio.volume = 0
       audio.play()
         .then(() => { fadeTo(0.2, 1500); setPlaying(true) })
         .catch(() => {})
-    }, 2500)
-    return () => clearTimeout(timer)
+    }
+    window.addEventListener('scroll', start, { once: true })
+    window.addEventListener('click', start, { once: true })
+    window.addEventListener('touchstart', start, { once: true })
+    return () => {
+      window.removeEventListener('scroll', start)
+      window.removeEventListener('click', start)
+      window.removeEventListener('touchstart', start)
+    }
   }, [])
 
   useEffect(() => {
